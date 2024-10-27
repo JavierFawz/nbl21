@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Time Machine - Selamat Ulang Tahun</title>
+    <style>
+        /* Reset CSS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            perspective: 1000px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 40px;
+            color: #FFD700; /* Warna emas untuk kesan meriah */
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .signature {
+            text-align: right;
+            margin-top: 50px;
+            font-size: 18px;
+            font-style: italic;
+        }
+
+        /* Efek Time Machine */
+        .time-machine-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.1), rgba(0,0,0,1));
+            animation: rotateBackground 30s linear infinite;
+        }
+
+        .time-machine-background::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, transparent, rgba(0,0,0,1));
+            transform: translate(-50%, -50%) scale(0);
+            animation: tunnelAnimation 5s linear infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes tunnelAnimation {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0;
+            }
+        }
+
+        @keyframes rotateBackground {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Animasi Partikel */
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            animation: moveParticle linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes moveParticle {
+            0% {
+                transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0px) scale(0.1);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) rotate(var(--angle)) translateX(500px) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Animasi Balon Ulang Tahun */
+        .balloons {
+            position: fixed;
+            bottom: -150px;
+            width: 100%;
+            height: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .balloon {
+            position: absolute;
+            bottom: 0;
+            width: 50px;
+            height: 70px;
+            background: red;
+            border-radius: 50% 50% 50% 50%;
+            opacity: 0.8;
+            animation: floatUp linear infinite;
+        }
+
+        .balloon::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 22px;
+            width: 6px;
+            height: 20px;
+            background: #fff;
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(0);
+                opacity: 0.8;
+            }
+            to {
+                transform: translateY(-110vh);
+                opacity: 0;
+            }
+        }
+
+        /* Warna dan durasi berbeda untuk balon */
+        .balloon:nth-child(1) { left: 10%; background: #FF69B4; animation-duration: 6s; }
+        .balloon:nth-child(2) { left: 25%; background: #7B68EE; animation-duration: 7s; animation-delay: 1s; }
+        .balloon:nth-child(3) { left: 40%; background: #FFD700; animation-duration: 5s; animation-delay: 2s; }
+        .balloon:nth-child(4) { left: 55%; background: #00FA9A; animation-duration: 6.5s; animation-delay: 1.5s; }
+        .balloon:nth-child(5) { left: 70%; background: #FF4500; animation-duration: 7.5s; animation-delay: 0.5s; }
+        .balloon:nth-child(6) { left: 85%; background: #1E90FF; animation-duration: 5.5s; animation-delay: 2.5s; }
+
+        /* Header */
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            margin-bottom: 40px;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 60px;
+            padding: 20px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 14px;
+            color: #ccc;
+        }
+
+        /* Button Styling */
+        .btn {
+            display: inline-block;
+            padding: 12px 25px;
+            margin-top: 20px;
+            background: #FFD700;
+            color: #000;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .btn:hover {
+            background: #FFC300;
+            transform: scale(1.05);
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 36px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+
+            .balloon {
+                width: 40px;
+                height: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="time-machine-background">
+        <!-- Partikel dihasilkan melalui JavaScript -->
+    </div>
+
+    <div class="balloons">
+        <!-- Balon dihasilkan melalui JavaScript -->
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Time Machine</h1>
+        </header>
+
+        <section>
+            <p>Halo Nabila, ini Javier. Aku tidak tahu ini Javier yang mana—mungkin Javier dari masa depan, atau mungkin Javier dari masa lalu, atau mungkin Javier dari masa kini, yang detik ini juga sedang mengetik, ingin menyampaikan suatu pesan khusus untukmu.</p>
+
+            <p>Ini tahun ke-3 sejak aku mengungkapkan perasaanku kepadamu, dan juga tahun ke-5 sejak kencan pertama kita.</p>
+
+            <p><strong>Siapa sih Nabila itu?</strong></p>
+
+            <p>Dari tahun ke tahun aku semakin mengenalmu, dan semakin tahu “siapa sih Nabila itu?”</p>
+
+            <p>Iya, aku tahu kamu ISFP. Menurut ChatGPT, ISFP adalah salah satu tipe kepribadian dalam Myers-Briggs Type Indicator (MBTI) yang sering disebut sebagai “The Adventurer” atau “Sang Seniman.” Orang dengan tipe ISFP dikenal dengan ~blablablablablabla~ HAHAHAHAHA, I’m joking :p</p>
+
+            <p>Enggak, kamu bukan ISFP, kamu bukan MBTI, kamu itu “Nabila”.</p>
+
+            <p>Iya, Nabila! Nabila si orang yang paling unik, beda dari yang lain, dan itu adalah jawaban yang aku dapat dari pertanyaan “siapa sih Nabila itu?”</p>
+
+            <p>Orang unik ini sudah menjalani kehidupan selama berapa lama coba tebak?? <strong>21 TAHUN GAESS!!</strong><br>
+            tambah tua? enggak!! tambah dewasa?? iyaaa dooongg!!!</p>
+
+            <p>Sadar nggak?<br>
+            1/4 hidupmu sudah kamu lalui bareng aku, dan<br>
+            1/4 hidupku juga sudah aku lalui bareng kamu.<br>
+            hehe :b</p>
+
+            <p>Kangen nggak sih sama masa kecil? Kalau aku sih kangen banget, mana nggak perlu ngerasain UTS, UAS, presentasi, tramed, praktikum, UAB, dll hahahaha….</p>
+
+            <p>Seru banget ya masa kecil?<br>
+            Lohh, sekarang juga seru kok…<br>
+            Karena mulai detik ini juga, kamu yang lagi baca tulisan ini sudah masuk ke dalam langkah pertama untuk meraih memori-memori tersembunyi kamu di masa depan.</p>
+
+            <p>Hah? Memori masa depan? Emang ada?<br>
+            Ada doongg… Emang memori cuma di masa lalu doang? Enggak lah!! Ada banyak banget memori yang masih tersembunyi di masa depan.</p>
+
+            <p>Apa tuh?</p>
+
+            <p>Memori nggak hanya terbatas pada masa lalu sebagai sebuah KENANGAN, tapi juga termasuk masa depan sebagai sebuah ekspektasi, proyeksi, dan HARAPAN.</p>
+
+            <p>Dan mulai sekarang, aku pengen kita ciptakan lebih banyak memori bersama. Memori yang akan selalu kita kenang, baik itu kenangan manis atau mungkin kenangan yang mengajarkan kita untuk tumbuh lebih dewasa lagi. Dan aku juga berharap, kita bisa terus menciptakan memori-memori baru, saling mendukung dalam setiap langkah yang akan kita ambil, dan juga merayakan setiap pencapaian yang kita raih.</p>
+
+            <p>Karena buatku, setiap momen dengan Nabila adalah memori berupa kenangan dan juga harapan yang paling berharga, yang pasti akan selalu aku simpan dalam ingatan.</p>
+
+            <h2 style="color: #FFD700;">HAPPY TURNING 21 NABILA!!</h2>
+
+            <p style="margin-top: 10px;">28 Oktober 2024</p>
+
+            <p>aku tujukan khusus untuk:</p>
+
+            <p><strong>Nabila Putri Himawati Ramadhani</strong></p>
+
+            <p>orang paling spesial buat aku di masa kini, masa lalu, dan juga masa yang akan datang.</p>
+
+            <div class="signature">
+                <p>~ From Javier</p>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Javier. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Membuat partikel bergerak
+        const background = document.querySelector('.time-machine-background');
+
+        for (let i = 0; i < 100; i++) {
+            let particle = document.createElement('div');
+            particle.className = 'particle';
+            let size = Math.random() * 4 + 1;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            let angle = Math.random() * 360;
+            let speed = 3 + Math.random() * 5;
+            particle.style.left = '50%';
+            particle.style.top = '50%';
+            particle.style.background = 'rgba(255, 255, 255,' + Math.random() + ')';
+            particle.style.animation = `moveParticle ${speed}s linear infinite`;
+            particle.style.transform = `translate(-50%, -50%)`;
+            particle.style.animationDelay = -(Math.random() * speed) + 's';
+            particle.style.setProperty('--angle', angle + 'deg');
+            background.appendChild(particle);
+        }
+
+        // Membuat balon
+        const balloons = document.querySelector('.balloons');
+
+        for (let i = 0; i < 6; i++) {
+            let balloon = document.createElement('div');
+            balloon.className = 'balloon';
+            balloons.appendChild(balloon);
+        }
+    </script>
+</body>
+</html>
